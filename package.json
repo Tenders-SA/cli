@@ -1,0 +1,38 @@
+{
+  "name": "@tendersa/cli",
+  "version": "0.1.0-alpha.0",
+  "description": "Official CLI for the Tenders-SA Developer API — South African public procurement data at your terminal",
+  "license": "MIT",
+  "homepage": "https://tenders-sa.org/developers",
+  "bugs": {
+    "url": "https://github.com/Tenders-SA/cli/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tenders-SA/cli.git"
+  },
+  "type": "module",
+  "bin": {
+    "tendersa": "./dist/cli.js"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src/",
+    "test": "vitest run",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@tendersa/sdk": "^0.1.0-alpha.0",
+    "commander": "^12.0.0",
+    "chalk": "^5.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.0",
+    "vitest": "^4.1.0"
+  }
+}
