@@ -9,4 +9,7 @@ export default defineConfig({
   bundle: true,
   platform: "node",
   outDir: "dist",
+  banner: {
+    js: "#!/usr/bin/env node",
+  },
 });
