@@ -1,4 +1,4 @@
-# @tendersa/cli
+# @tenders-sa-org/cli
 
 Official CLI for the [Tenders-SA Developer API](https://tenders-sa.org/developers) — South African public procurement data at your terminal.
 
@@ -54,13 +54,13 @@ All requests require an API key. Keys are generated through the [Developer Porta
 ## Installation
 
 ```bash
-npm install -g @tendersa/cli
+npm install -g @tenders-sa-org/cli
 ```
 
 Or run directly without installation:
 
 ```bash
-npx @tendersa/cli tenders list
+npx @tenders-sa-org/cli tenders list
 ```
 
 ---
