@@ -1,6 +1,6 @@
 {
   "name": "@tenders-sa-org/cli",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Official CLI for the Tenders-SA Developer API — South African public procurement data at your terminal",
   "license": "MIT",
   "homepage": "https://tenders-sa.org/developers",
