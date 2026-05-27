@@ -1,6 +1,6 @@
 import { Command } from 'commander';
-import { TendersaClient, AwardsResource, type AwardListParams } from '@tendersa/sdk';
-import type { TendersaClientConfig } from '@tendersa/sdk';
+import { TendersaClient, AwardsResource, type AwardListParams } from '@tenders-sa-org/sdk-js';
+import type { TendersaClientConfig } from '@tenders-sa-org/sdk-js';
 
 import { getConfig } from '../config';
 import { type Column, formatMeta, formatTable } from '../utils';

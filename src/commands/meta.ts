@@ -1,6 +1,6 @@
 import { Command } from 'commander';
-import { TendersaClient, MetaResource } from '@tendersa/sdk';
-import type { TendersaClientConfig } from '@tendersa/sdk';
+import { TendersaClient, MetaResource } from '@tenders-sa-org/sdk-js';
+import type { TendersaClientConfig } from '@tenders-sa-org/sdk-js';
 
 import { getConfig } from '../config';
 import { formatTable, type Column } from '../utils';
