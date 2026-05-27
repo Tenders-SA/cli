@@ -1,6 +1,6 @@
 {
   "name": "@tenders-sa-org/cli",
-  "version": "0.1.0-alpha.0",
+  "version": "0.1.0",
   "description": "Official CLI for the Tenders-SA Developer API — South African public procurement data at your terminal",
   "license": "MIT",
   "homepage": "https://tenders-sa.org/developers",
@@ -15,8 +15,12 @@
   "bin": {
     "tendersa": "./dist/cli.js"
   },
-  "files": ["dist"],
-  "publishConfig": { "access": "public" },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
