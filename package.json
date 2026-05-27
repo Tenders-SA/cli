@@ -13,7 +13,7 @@
   },
   "type": "module",
   "bin": {
-    "tendersa": "./dist/cli.js"
+    "tendersa": "dist/cli.js"
   },
   "files": [
     "dist"
