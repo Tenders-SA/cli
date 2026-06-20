@@ -4,6 +4,18 @@ import { registerTendersCommands } from './commands/tenders';
 import { registerAwardsCommands } from './commands/awards';
 import { registerCompaniesCommands } from './commands/companies';
 import { registerMetaCommands } from './commands/meta';
+import { registerCategoriesCommands } from './commands/categories';
+import { registerProvincesCommands } from './commands/provinces';
+import { registerDirectorsCommands } from './commands/directors';
+import { registerSeoCommands } from './commands/seo';
+import { registerIndustryCommands } from './commands/industry';
+import { registerServicesCommands } from './commands/services';
+import { registerOcdsCommands } from './commands/ocds';
+import { registerIntelCommands } from './commands/intel';
+import { registerForensicCommands } from './commands/forensic';
+import { registerCipcCommands } from './commands/cipc';
+import { registerNewslettersCommands } from './commands/newsletters';
+import { registerDocumentsCommands } from './commands/documents';
 import { getConfig, setConfig } from './config';
 
 const program = new Command();
@@ -11,7 +23,7 @@ const program = new Command();
 program
   .name('tendersa')
   .description('Tenders-SA Developer API CLI — South African public procurement data')
-  .version('0.1.0-alpha.0');
+  .version('0.2.0-pre.0');
 
 program.hook('preAction', (thisCommand) => {
   const cmd = thisCommand.args[0];
@@ -28,6 +40,18 @@ registerTendersCommands(program);
 registerAwardsCommands(program);
 registerCompaniesCommands(program);
 registerMetaCommands(program);
+registerCategoriesCommands(program);
+registerProvincesCommands(program);
+registerDirectorsCommands(program);
+registerSeoCommands(program);
+registerIndustryCommands(program);
+registerServicesCommands(program);
+registerOcdsCommands(program);
+registerIntelCommands(program);
+registerForensicCommands(program);
+registerCipcCommands(program);
+registerNewslettersCommands(program);
+registerDocumentsCommands(program);
 
 program
   .command('config')

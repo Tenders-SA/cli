@@ -6,6 +6,8 @@ export interface Column {
   width: number;
 }
 
+export type JsonOption = { json?: boolean };
+
 export function formatTable(rows: Record<string, unknown>[], columns: Column[]): string {
   const lines: string[] = [];
 
@@ -40,4 +42,13 @@ export function formatError(err: unknown): string {
     return chalk.red(err.message);
   }
   return chalk.red(String(err));
+}
+
+export function handleError(err: unknown): never {
+  console.error(formatError(err));
+  process.exit(1);
+}
+
+export function renderJson(data: unknown, meta?: { requestId: string; timestamp: string; apiVersion?: string }): string {
+  return JSON.stringify({ data, meta }, null, 2);
 }

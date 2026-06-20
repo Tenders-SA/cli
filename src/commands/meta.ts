@@ -2,8 +2,9 @@ import { Command } from 'commander';
 import { TendersaClient, MetaResource } from '@tenders-sa-org/sdk-js';
 import type { TendersaClientConfig } from '@tenders-sa-org/sdk-js';
 
+import chalk from 'chalk';
 import { getConfig } from '../config';
-import { formatTable, type Column } from '../utils';
+import { type Column, type JsonOption, formatTable, handleError, renderJson } from '../utils';
 
 function makeMeta(): MetaResource {
   const config: TendersaClientConfig = { apiKey: getConfig().apiKey };
@@ -15,72 +16,62 @@ export function registerMetaCommands(program: Command): void {
 
   meta
     .command('status')
+    .option('--json', 'Output as JSON')
     .description('Check API status')
-    .action(async () => {
+    .action(async (options) => {
       const api = makeMeta();
       try {
         const result = await api.status();
-        const status = result.data;
-        console.log(`API Status: ${status.healthy ? 'Healthy' : 'Unhealthy'}`);
-        console.log(`Version:    ${status.version}`);
-        if (status.lastSync) {
-          console.log(`Last Sync:  ${JSON.stringify(status.lastSync)}`);
+        if ((options as JsonOption).json) {
+          console.log(renderJson(result.data, result.meta));
+          return;
         }
-      } catch (err) {
-        console.error(err instanceof Error ? err.message : String(err));
-        process.exit(1);
-      }
-    });
-
-  meta
-    .command('provinces')
-    .description('List tender counts by province')
-    .action(async () => {
-      const api = makeMeta();
-      try {
-        const result = await api.provinces();
-        const PROV_COLUMNS: Column[] = [
-          { header: 'Province', key: 'name', width: 30 },
-          { header: 'Tenders', key: 'tenderCount', width: 10 },
-        ];
-        console.log(formatTable(result.data as unknown as Record<string, unknown>[], PROV_COLUMNS));
-      } catch (err) {
-        console.error(err instanceof Error ? err.message : String(err));
-        process.exit(1);
-      }
-    });
-
-  meta
-    .command('categories')
-    .description('List tender counts by category')
-    .action(async () => {
-      const api = makeMeta();
-      try {
-        const result = await api.categories();
-        const CAT_COLUMNS: Column[] = [
-          { header: 'Category', key: 'name', width: 50 },
-          { header: 'Count', key: 'count', width: 10 },
-        ];
-        console.log(formatTable(result.data as unknown as Record<string, unknown>[], CAT_COLUMNS));
-      } catch (err) {
-        console.error(err instanceof Error ? err.message : String(err));
-        process.exit(1);
-      }
+        const s = result.data;
+        console.log(chalk.bold(`API: ${s.healthy ? chalk.green('Healthy') : chalk.red('Unhealthy')}`));
+        console.log(`Version:    ${s.version}`);
+        console.log(`Timestamp:  ${s.timestamp ?? 'N/A'}`);
+        if (s.entities) console.log(`Entities:   ${JSON.stringify(s.entities)}`);
+        if (s.cron) console.log(`Cron:       ${JSON.stringify(s.cron)}`);
+      } catch (err) { handleError(err); }
     });
 
   meta
     .command('usage')
+    .option('--json', 'Output as JSON')
     .description('Check API usage stats')
-    .action(async () => {
+    .action(async (options) => {
       const api = makeMeta();
       try {
         const result = await api.usage();
+        if ((options as JsonOption).json) {
+          console.log(renderJson(result.data, result.meta));
+          return;
+        }
         const usage = result.data;
-        console.log(`Daily:   ${usage.daily} / ${usage.limit.daily}`);
-        console.log(`Monthly: ${usage.monthly} / ${usage.limit.monthly}`);
-      } catch (err) {
-        console.error(err instanceof Error ? err.message : String(err));
-        process.exit(1);
-      }
+        console.log(`Daily:   ${usage.daily} / ${usage.limit?.daily ?? 'N/A'}`);
+        console.log(`Monthly: ${usage.monthly} / ${usage.limit?.monthly ?? 'N/A'}`);
+      } catch (err) { handleError(err); }
+    });
+
+  meta
+    .command('industries')
+    .option('--json', 'Output as JSON')
+    .description('List industry benchmarks')
+    .action(async (options) => {
+      const api = makeMeta();
+      try {
+        const result = await api.industries();
+        if ((options as JsonOption).json) {
+          console.log(renderJson(result.data, result.meta));
+          return;
+        }
+        const INDUSTRY_COLUMNS: Column[] = [
+          { header: 'ID', key: 'id', width: 24 },
+          { header: 'Industry', key: 'industryName', width: 40 },
+          { header: 'Sample', key: 'sampleSize', width: 8 },
+          { header: 'Median Value', key: 'medianValue', width: 16 },
+        ];
+        console.log(formatTable(result.data as unknown as Record<string, unknown>[], INDUSTRY_COLUMNS));
+      } catch (err) { handleError(err); }
     });
 }

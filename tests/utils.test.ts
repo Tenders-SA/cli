@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { formatTable, formatMeta, formatError } from '../src/utils';
+import { formatTable, formatMeta, formatError, renderJson } from '../src/utils';
 
 describe('formatTable', () => {
   it('renders a simple table', () => {
@@ -40,5 +40,21 @@ describe('formatError', () => {
 
   it('formats plain strings', () => {
     expect(formatError('oops')).toContain('oops');
+  });
+});
+
+describe('renderJson', () => {
+  it('renders data and meta as JSON', () => {
+    const out = renderJson({ id: 't1' }, { requestId: 'r1', timestamp: 'now', apiVersion: 'v2' });
+    const parsed = JSON.parse(out);
+    expect(parsed.data).toEqual({ id: 't1' });
+    expect(parsed.meta.requestId).toBe('r1');
+    expect(parsed.meta.apiVersion).toBe('v2');
+  });
+
+  it('renders data without meta', () => {
+    const out = JSON.parse(renderJson([1, 2, 3]));
+    expect(out.data).toEqual([1, 2, 3]);
+    expect(out.meta).toBeUndefined();
   });
 });
